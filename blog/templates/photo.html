@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>上传照片</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <!-- 新 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="/public/css/bootstrap.min.css">
+    <link rel='stylesheet' href='/public/css/photo.css' />
+    <link rel='stylesheet' href='/public/css/page.css' />
+    <link rel="stylesheet" type="text/css" href="/public/css/font-awesome/css/font-awesome.min.css">
+    <!-- 可选的Bootstrap主题文件（一般不用引入） -->
+
+    <link href="/public/css/blog.min.css" rel="stylesheet" type="text/css">
+</head>
+<body ng-app="myApp">
+{% include 'header.html' %}
+<div class="photoDisplay">
+    <div class="ribbon"><span class="ribbon-content">照片墙</span></div>
+    {% for photo in photos %}
+        <div class="photoList">
+            <h2>{{ photo.des }}</h2>
+            <img src="/public/temp/{{ photo.picture }}" alt="{{ photo.des }}" class="img-responsive">
+        </div>
+    {% endfor %}
+    <div id="pagination">
+    </div>
+</div>
+<script src="/public/js/angular.min.js"></script>
+
+<script src="/public/js/index.min.js"></script>
+<script src="/public/js/jquery.js"></script>
+<script src="http://cdn.bootcss.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+<script src="/public/js/jqPaginator.js"></script>
+<script>
+
+    $(function () {
+        var totalPages1 ={{ totalPages }};
+        var totalPages = parseInt(totalPages1);
+        var currentPage1 = {{ page }};
+        var currentPage = parseInt(currentPage1);
+
+        function cur(first) {
+            if (currentPage == 1) {
+                if (first == "first") {
+                    return '<li class="first"><a href="javascript:void(0);">首页</a></li>';
+                } else {
+                    return '<li class="prev"><a href="javascript:void(0);">«</a></li>';
+                }
+
+            } else {
+                if (first == "first") {
+                    return '<li class="first"><a href="/photos?page=1">首页</a></li>';
+                } else {
+                    return '<li class="prev"><a href="/photos?page=' + (currentPage - 1) + '">«</a></li>';
+                }
+            }
+        }
+
+        function last(last) {
+            if (currentPage == totalPages) {
+                if (last == "last") {
+                    return '<li class="last"><a href="javascript:void(0);">尾页</a></li>';
+                } else {
+                    return '<li class="next"><a href="javascript:void(0);">»</a></li>';
+                }
+            } else {
+                if (last == "last") {
+                    return '<li class="last"><a href="/photos?page=' + totalPages + '">尾页</a></li>'
+                } else {
+                    return '<li class="next"><a href="/photos?page=' + (currentPage + 1) + '">»</a></li>';
+                }
+            }
+        }
+
+        $.jqPaginator('#pagination', {
+            totalPages: totalPages,
+            visiblePages: 5,
+            currentPage: currentPage,
+            wrapper: '<ul class="pagination"></ul>',
+            first: cur('first'),
+            prev: cur('prev'),
+            next: last('next'),
+            last: last('last'),
+            page: '<li class="page"><a href="/photos?page=page1">page1</a></li>'
+        });
+    });
+</script>
+</body>
+</html>

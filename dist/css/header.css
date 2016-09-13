@@ -1,0 +1,21 @@
+ul li {
+  list-style: none;
+}
+.nav-tabs {
+  border-bottom: none;
+}
+.navbar-inverse {
+  z-index: 10000;
+  background-color: rgba(29, 28, 32, 0.9);
+  border-radius: 0;
+}
+.navbar-inverse .navbar-brand {
+  color: #e8c3da;
+  font-size: 24px;
+}
+.navbar-inverse .navbar-nav > .active > a,
+.navbar-inverse .navbar-nav > .active > a:focus,
+.navbar-inverse .navbar-nav > .active > a:hover {
+  background-color: #080808;
+  color: red;
+}

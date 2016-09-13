@@ -1,0 +1,4 @@
+anan 10 1
+anxi 32 2
+andg 45 1
+adde 23 1

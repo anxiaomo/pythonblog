@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <!-- 新 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="/public/css/bootstrap.min.css">
+    <!-- 可选的Bootstrap主题文件（一般不用引入） -->
+
+    <link href="/public/css/blog.min.css" rel="stylesheet" type="text/css">
+</head>
+<body ng-app="myApp">
+{% include 'header.html' %}
+
+<div class="container">
+    <article>
+        <section class="col-lg-9 blog_section">
+            {% if blogs %}
+                {% for blog in blogs %}
+                    <div class="blog">
+                        <div class="title" >
+                            <div class="title_name">
+                                <a href="/full?id={{ blog.id }}" class="title1">{{ blog.caption }}</a>
+                            </div>
+                            <div class="time_classify">
+                                <span class="publish_time">{{ blog.publish_time|date:"Y-m-d H:i" }} </span>/<a href="/searchByClassify?classify={{ blog.classification }}" class="classification">{{ blog.classification }}</a>
+                            </div>
+                            <div class="tag">
+                                标签：
+                                {% for tag in blog.tags.all %}
+                                    <a href="/searchByTag?tag={{ tag.tag_name }}">{{ tag.tag_name }}</a>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <div class="blog_description">
+                            {% autoescape off %}
+                                摘要:{{ blog.description }}
+                            {% endautoescape %}
+                        </div>
+                        <div class="full"><span class="full_title"> <a href="/full?id={{ blog.id }}">阅读全文</a></span></div>
+                        <hr>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <div>没有该类文章</div>
+            {% endif %}
+            <div id="pagination"> </div>
+        </section>
+
+        <aside class="col-lg-3 col-xs-12">
+            <form class="" role="form" method="get" action="/searchByTag">
+                <div class="input-group col-lg-12">
+                    <span class="input-group-addon">按标签查找</span>
+                    <input type="text" class="form-control " name="tag"/>
+                    <span class="input-group-btn">
+                                <input type="submit" class="btn btn-primary" value="查找"/>
+                            </span>
+                </div><!-- /input-group -->
+            </form>
+            <div class="tags">
+                <ul>
+                    {% for tag in tags %}
+                        <li><a href="/searchByTag?tag={{ tag.tag_name }}">{{ tag.tag_name }}</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <form class="" role="form" method="get" action="/searchByClassify">
+                <div class="input-group col-lg-12">
+                    <span class="input-group-addon">按分类查找</span>
+                    <input type="text" class="form-control" name="classify"/>
+                    <span class="input-group-btn">
+                                <input type="submit" class="btn btn-primary" value="查找"/>
+                            </span>
+                </div><!-- /input-group -->
+            </form>
+            <div class="classify">
+                <ul>
+                    {% for classification in classifications %}
+                        <li><a href="/searchByClassify?classify={{ classification.name }}">{{ classification.name }}</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </aside>
+    </article>
+</div>
+<script src="/public/js/angular.min.js"></script>
+{% comment %}<script src="/public/js/myApp.js"></script>
+<script src="/public/js/header.js"></script>{% endcomment %}
+
+<script src="/public/js/index.min.js"></script>
+
+
+<script src="/public/js/jquery.js"></script>
+<script src="http://cdn.bootcss.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+<script src="/public/js/jqPaginator.js"></script>
+<script>
+
+    $(function () {
+        var totalPages1 ={{ totalPages }};
+        var totalPages = parseInt(totalPages1);
+        var currentPage1 = {{ page }};
+        var currentPage = parseInt(currentPage1);
+
+        function cur(first) {
+            if (currentPage == 1) {
+                if (first == "first") {
+                    return '<li class="first"><a href="javascript:void(0);">首页</a></li>';
+                } else {
+                    return '<li class="prev"><a href="javascript:void(0);">«</a></li>';
+                }
+
+            } else {
+                if (first == "first") {
+                    return '<li class="first"><a href="/blog?page=1">首页</a></li>';
+                } else {
+                    return '<li class="prev"><a href="/blog?page=' + (currentPage - 1) + '">«</a></li>';
+                }
+            }
+        }
+
+        function last(last) {
+            if (currentPage == totalPages) {
+                if (last == "last") {
+                    return '<li class="last"><a href="javascript:void(0);">尾页</a></li>';
+                } else {
+                    return '<li class="next"><a href="javascript:void(0);">»</a></li>';
+                }
+            } else {
+                if (last == "last") {
+                    return '<li class="last"><a href="/blog?page=' + totalPages + '">尾页</a></li>'
+                } else {
+                    return '<li class="next"><a href="/blog?page=' + (currentPage + 1) + '">»</a></li>';
+                }
+            }
+        }
+
+        $.jqPaginator('#pagination', {
+            totalPages: totalPages,
+            visiblePages: 5,
+            currentPage: currentPage,
+            wrapper: '<ul class="pagination"></ul>',
+            first: cur('first'),
+            prev: cur('prev'),
+            next: last('next'),
+            last: last('last'),
+            page: '<li class="page"><a href="/blog?page=page1">page1</a></li>'
+        });
+    });
+</script>
+</body>
+</html>

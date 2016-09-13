@@ -1,0 +1,75 @@
+.photoDisplay {
+	position:relative;
+	width:98%;
+	margin:0 auto
+}
+.photoDisplay h1 {
+	color:red
+}
+.photoDisplay .photoList {
+	width:350px;
+	display:inline-block;
+	padding:3px;
+	border:2px solid #eee;
+	border-radius:5px;
+	margin-left:2px;
+	box-shadow:0 2px 1px 2px #ddd;
+    background: #effdff;
+}
+.photoDisplay .photoList h2 {
+	font-size:18px;
+	color:#ff9140;
+	display:inline-table;
+}
+.photoDisplay .photoList img {
+	cursor:pointer;
+	width:330px;
+	height:200px
+}
+.ribbon {
+	position:relative;
+	width:200px;
+	height:45px;
+	line-height:45px;
+	font-size:25px !important;
+	color:#fff;
+	text-align:center;
+	background:#ff0066;
+	margin:0px auto 30px auto
+}
+.ribbon:before,.ribbon:after {
+	content:"";
+	position:absolute;
+	display:block;
+	bottom:-10px;
+	border:22px solid #ff0066;
+	z-index:-1
+}
+.ribbon:before {
+	left:-38px;
+	border-right-width:25px;
+	border-left-color:transparent;
+	box-shadow:1px 1px 0 rgba(176,102,166,0.8)
+}
+.ribbon:after {
+	right:-38px;
+	border-left-width:25px;
+	border-right-color:transparent;
+	box-shadow:0 1px 0 rgba(176,102,166,0.8)
+}
+.ribbon .ribbon-content:before,.ribbon .ribbon-content:after {
+	content:"";
+	position:absolute;
+	display:block;
+	border-style:solid;
+	border-color:#bf004c transparent transparent transparent;
+	bottom:-10px
+}
+.ribbon .ribbon-content:before {
+	left:0;
+	border-width:10px 0 0 10px
+}
+.ribbon .ribbon-content:after {
+	right:0;
+	border-width:10px 10px 0 0
+}
